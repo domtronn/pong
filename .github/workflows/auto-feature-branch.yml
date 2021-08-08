@@ -20,8 +20,26 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - id: branch-exists
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+            try {
+              await github.repos.getBranch({
+                owner: context.repo.owner, repo: context.repo.repo, 
+                branch: ${{ github.event.inputs.feature }}
+              })
+              core.info(`${{ github.event.inputs.feature }} exists, skipping branch creation`)  
+              return true
+            } catch (e) {
+              core.info(`${{ github.event.inputs.feature }} does not exist`)
+              return false
+            }
+
       - uses: actions/github-script@0.4.0
-        if: ${{ steps.branch.outputs.exists }} == '0'
+        if: ${{ steps.branch-exists.outputs.result }} == false'
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -46,7 +64,3 @@ jobs:
           git add ping.txt
           git commit -m "Updated depdendent timestamp file for feature branch"
           git push
-
-
-
-
