@@ -18,16 +18,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-
-      - run: |
-         echo "We got a new EVCore branch to play with!!! '${{ github.event.inputs.branch }}''"
-         echo "Creating a new branch! '${{ github.event.inputs.feature }}''"
-         
-         
-      - uses: peterjgrainger/action-create-branch@v2.0.1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - id: branch-exists
+        uses: actions/github-script@0.4.0
         with:
-          branch: '${{ github.events.inputs.feature }}'
+          result-encoding: string
+          script: |
+            git show-ref --verify --quiet refs/heads/${{ github.event.inputs.feature }}
+            return $?
+         
+      - uses: actions/github-script@0.4.0
+        if: ${{ steps.branch-exists.outputs.result }} == 1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/tags/${{ github.events.inputs.feature }}`,
+              sha: context.sha
+            })
       
