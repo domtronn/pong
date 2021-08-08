@@ -6,16 +6,23 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/github-script@v4
+      - id: branch
+        uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
           script: |
-            core.info("Starting")
-            const res = await github.repos.getBranch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              branch: `other-branch`
-            })
+            try {
+              await github.repos.getBranch({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                branch: `other-branch`
+              })
               
-            core.info(JSON.stringify(res, null, 2))
-                            
+              return true
+            } catch (e) {
+              return false
+            }
+            
+      - run: |
+          echo Result -> ${{ steps.branch.outputs.result }}
