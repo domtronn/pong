@@ -33,6 +33,7 @@ jobs:
               })
               core.info(`${{ github.event.inputs.feature }} exists, skipping branch creation`)  
             } catch (e) {
+              core.info(e.toString())
               core.info(`${{ github.event.inputs.feature }} does not exist`)
               github.git.createRef({
                 owner: context.repo.owner,
