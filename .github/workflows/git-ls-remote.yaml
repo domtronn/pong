@@ -14,7 +14,7 @@ jobs:
             const res = await github.repos.getBranch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              branch: `main`
+              branch: `other-branch`
             })
               
             core.info(JSON.stringify(res, null, 2))
