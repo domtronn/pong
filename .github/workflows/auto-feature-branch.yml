@@ -9,6 +9,9 @@ on:
       sha:
         description: "The last commit SHA that triggered the upstream"
         required: true
+      feature:
+        description: "The feature branch name to create"
+        required: true
 
 jobs:
   branch:
@@ -19,4 +22,11 @@ jobs:
 
       - run: |
          echo "We got a new EVCore branch to play with!!! '${{ github.event.inputs.branch }}''"
+         
+         
+      - uses: peterjgrainger/action-create-branch@v2.0.1
+        env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          branch: '${{ github.events.inputs.feature }}'
       
