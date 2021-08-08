@@ -24,11 +24,10 @@ jobs:
       
       - id: branch
         run: |
-          git show-ref --verify --quiet refs/heads/${{ github.event.inputs.feature }}
-          echo '::set-output exists=$?::0'
+          echo '::set-output exists=$( git ls-remote --heads git@github.com:domtronn/pong.git ${{ github.events.input.feature }} | wc -l )::0'
          
       - uses: actions/github-script@0.4.0
-        if: ${{ steps.branch.outputs.exists }} == 1
+        if: ${{ steps.branch.outputs.exists }} == 0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
