@@ -14,7 +14,7 @@ jobs:
             const res = await github.git.getRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: `refs/heads/main`
+              ref: `main`
             })
               
             core.info(res)
