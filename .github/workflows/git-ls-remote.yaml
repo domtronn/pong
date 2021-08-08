@@ -4,8 +4,5 @@ jobs:
   remote:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with: 
-          ref: example/branch
       - run: |
-          ls *
+          git branch
