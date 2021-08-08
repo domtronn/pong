@@ -8,6 +8,24 @@ jobs:
         with:
           fetch-depth: 2
 
+      - uses: actions/github-script@0.4.0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+             const res = await github.git.ref({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `refs/heads/main`
+              })
+              
+              console.log(res)
+                            
+              const newres = await github.git.ref({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `refs/heads/ping/pong`,
+              })
 
-      - run: |
-          git branch
+              console.log(newres)
+            } catch (e) { }
