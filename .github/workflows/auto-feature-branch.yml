@@ -29,7 +29,7 @@ jobs:
             try {
               const res = await github.repos.getBranch({
                 owner: context.repo.owner, repo: context.repo.repo, 
-                branch: ${{ github.event.inputs.feature }}
+                branch: `${{ github.event.inputs.feature }}`
               })
               core.info(`${{ github.event.inputs.feature }} exists, skipping branch creation`)  
             } catch (e) {
