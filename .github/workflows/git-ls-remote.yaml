@@ -16,7 +16,7 @@ jobs:
               await github.repos.getBranch({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                branch: `other-branch`
+                branch: `ping/main`
               })
               
               return true
