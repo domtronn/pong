@@ -18,10 +18,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        
-      
+      - uses: actions/checkout@v2
       - id: branch
         run: |
           echo '::set-output exists=$( git ls-remote --heads git@github.com:domtronn/pong.git ${{ github.event.inputs.feature }} | wc -l )'
@@ -37,4 +34,32 @@ jobs:
               ref: `refs/heads/${{ github.event.inputs.feature }}`,
               sha: context.sha
             })
-      
+
+      - uses: actions/github-script@0.4.0
+        if: ${{ steps.branch.outputs.exists }} == 0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            github.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: `refs/heads/${{ github.event.inputs.feature }}`,
+              sha: context.sha
+            })
+        
+      - uses: actions/checkout@v2
+        with:
+          ref: refs/heads/${{ github.event.inputs.feature }}
+          
+      - run: |
+          date > ping.txt
+          echo "Triggered by ping branch: ${{ github.event.inputs.branch }}@${{ github.event.inputs.sha }}" >> ping.txt
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add ping.txt
+          git commit -m "Updated depdendent timestamp file for feature branch"
+          git push
+
+
+
+
