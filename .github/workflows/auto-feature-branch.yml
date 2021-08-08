@@ -18,8 +18,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout the project to get git context
       - uses: actions/checkout@v2
 
+      # Use toolkit actions script to determine if the feature branch already exists
       - id: branch-exists
         uses: actions/github-script@v4
         with:
@@ -44,10 +46,12 @@ jobs:
               return false
             }
         
+      # Checkout the feature branch post creation or existing
       - uses: actions/checkout@v2
         with:
           ref: refs/heads/${{ github.event.inputs.feature }}
           
+      # Commit a file to keep the feature branch alive, similar to a touch
       - run: |
           date > ping.txt
           echo "Triggered by ping branch: ${{ github.event.inputs.branch }}@${{ github.event.inputs.sha }}" >> ping.txt
