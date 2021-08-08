@@ -19,7 +19,7 @@ jobs:
                 ref: `refs/heads/main`
               })
               
-              console.log(res)
+              core.info(res)
                             
               const newres = await github.git.ref({
                 owner: context.repo.owner,
@@ -27,5 +27,5 @@ jobs:
                 ref: `refs/heads/ping/pong`,
               })
 
-              console.log(newres)
+              core.info(newres)
             } catch (e) { }
