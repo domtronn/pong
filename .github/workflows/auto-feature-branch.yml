@@ -34,7 +34,7 @@ jobs:
             github.git.createRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: `refs/tags/${{ github.events.inputs.feature }}`,
+              ref: `refs/heads/${{ github.events.inputs.feature }}`,
               sha: context.sha
             })
       
