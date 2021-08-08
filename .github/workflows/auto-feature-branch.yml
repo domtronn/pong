@@ -24,7 +24,7 @@ jobs:
       
       - id: branch
         run: |
-          echo '::set-output exists=$( git ls-remote --heads git@github.com:domtronn/pong.git ${{ github.events.input.feature }} | wc -l )::0'
+          echo '::set-output exists=$( git ls-remote --heads git@github.com:domtronn/pong.git ${{ github.events.input.feature }} | wc -l )'
          
       - uses: actions/github-script@0.4.0
         if: ${{ steps.branch.outputs.exists }} == 0
