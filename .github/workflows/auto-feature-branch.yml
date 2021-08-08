@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
       - id: branch
         run: |
-          echo '::set-output exists=$( git ls-remote --heads git@github.com:domtronn/pong.git ${{ github.event.inputs.feature }} | wc -l )'
+          echo '::set-output name=exists::$( git ls-remote --heads git@github.com:domtronn/pong.git ${{ github.event.inputs.feature }} | wc -l )'
 
       - run: echo ${{ steps.branch.outputs.exists }}
 
