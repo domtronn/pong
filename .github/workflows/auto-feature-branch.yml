@@ -22,6 +22,7 @@ jobs:
 
       - run: |
          echo "We got a new EVCore branch to play with!!! '${{ github.event.inputs.branch }}''"
+         echo "Creating a new branch! '${{ github.event.inputs.feature }}''"
          
          
       - uses: peterjgrainger/action-create-branch@v2.0.1
