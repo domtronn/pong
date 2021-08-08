@@ -1,0 +1,22 @@
+name: Auto feature branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "The branch to trigger the build for"
+        required: true
+      sha:
+        description: "The last commit SHA that triggered the upstream"
+        required: true
+
+jobs:
+  branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: |
+         echo "We got a new EVCore branch to play with!!! '${{ github.event.inputs.branch }}''"
+      
