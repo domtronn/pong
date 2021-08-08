@@ -11,10 +11,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             core.info("Starting")
-            const res = await github.git.getRef({
+            const res = await github.repos.getBranch({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: `main`
+              branch: `main`
             })
               
             core.info(res)
