@@ -18,16 +18,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - id: branch-exists
-        uses: actions/github-script@0.4.0
-        with:
-          result-encoding: string
-          script: |
-            git show-ref --verify --quiet refs/heads/${{ github.event.inputs.feature }}
-            return $?
+      - id: branch
+        run: |
+          git show-ref --verify --quiet refs/heads/${{ github.event.inputs.feature }}
+          echo '::set-output exists=$?::0'
          
       - uses: actions/github-script@0.4.0
-        if: ${{ steps.branch-exists.outputs.result }} == 1
+        if: ${{ steps.branch.outputs.exists }} == 1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
