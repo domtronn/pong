@@ -11,7 +11,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             core.info("Starting")
-            const res = await github.git.ref({
+            const res = await github.getRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: `refs/heads/main`
@@ -19,7 +19,7 @@ jobs:
               
             core.info(res)
                             
-            const newres = await github.git.ref({
+            const newres = await github.getRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
               ref: `refs/heads/ping/pong`,
